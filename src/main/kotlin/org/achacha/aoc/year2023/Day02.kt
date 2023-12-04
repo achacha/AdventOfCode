@@ -21,7 +21,7 @@ class Day02 {
      * CRITERIA: 12 red cubes, 13 green cubes, and 14 blue cubes
      */
     fun compute(input: String): Int {
-        var gameData: List<Game> = parseInput(input)
+        val gameData: List<Game> = parseInput(input)
 
         val possibleGames: List<Game> = processGames(gameData)
 

@@ -7,11 +7,11 @@ class Day01Test {
 
     @Test
     fun `verify replacer works`() {
-        assertEquals("8____wo", Day01().replaceWordWithDigit("eightwo"))
+        assertEquals("8igh2wo", Day01().replaceWordWithDigit("eightwo"))
         assertEquals("", Day01().replaceWordWithDigit(""))
-        assertEquals("1__", Day01().replaceWordWithDigit("one"))
-        assertEquals("2006__teen232__", Day01().replaceWordWithDigit("200sixteen23two"))
-        assertEquals("6__66__", Day01().replaceWordWithDigit("six6six"))
+        assertEquals("1ne", Day01().replaceWordWithDigit("one"))
+        assertEquals("2006ixteen232wo", Day01().replaceWordWithDigit("200sixteen23two"))
+        assertEquals("6ix66ix", Day01().replaceWordWithDigit("six6six"))
     }
 
     /**
