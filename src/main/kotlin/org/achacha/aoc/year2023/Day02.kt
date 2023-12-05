@@ -1,12 +1,13 @@
 package org.achacha.aoc.year2023
 
-import jdk.jshell.spi.ExecutionControl.RunException
-import java.lang.RuntimeException
-
 /**
  * https://adventofcode.com/2023/day/2
  */
-class Day02 {
+class Day02(
+    private val redLimit: Int,
+    private val greenLimit: Int,
+    private val blueLimit: Int,
+) {
     data class Game(
         val id: Int,
         val hands: List<Hand>
@@ -44,13 +45,50 @@ class Day02 {
                 val gameId = gameSplit[0].substring(5).toInt()
 
                 // Extract sizes
+                val handSplit = gameSplit[1].split(";")
+                val hands = handSplit
+                    .map {
+                        it.split(",").map { it.trimIndent() }
+                    }
+                    .map {
+                        parseHand(it)
+                    }
+                    .toList()
 
-                Game(gameId, listOf())
+                Game(gameId, hands)
             }
 
-    private fun processGames(gameData: List<Game>): List<Game> {
-        // TODO
-
-        return listOf()
+    /**
+     * Hand is [3 green, 4 blue, 1 red]
+     */
+    fun parseHand(input: List<String>): Hand {
+        var quantity = 0
+        var red = 0
+        var green = 0
+        var blue = 0
+        input.forEach {
+            val splitCube = it.split(" ")
+            quantity = splitCube[0].toInt()
+            when (splitCube[1].trimIndent()) {
+                "red" -> red += quantity
+                "green" -> green += quantity
+                "blue" -> blue += quantity
+                else -> throw RuntimeException("Invalid cube: $splitCube")
+            }
+        }
+        return Hand(red, green, blue)
     }
+
+    /**
+     * Filter out any game where a hand doesn't meet the limit
+     */
+    fun processGames(games: List<Game>): List<Game> {
+        return games.filter { game ->
+            game.hands.all { hand ->
+                hand.red <= redLimit && hand.green <= greenLimit && hand.blue <= blueLimit
+            }
+        }
+    }
+
+
 }
