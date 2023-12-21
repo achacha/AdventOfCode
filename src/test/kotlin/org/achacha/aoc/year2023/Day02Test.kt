@@ -9,7 +9,10 @@ class Day02Test {
     fun `verify parse hand`() {
         val proc = Day02(1000, 1000, 1000)
         assertEquals(Day02.Hand(2, 7, 8), proc.parseHand(listOf("8 blue", "7 green", "2 red")))
-        assertEquals(Day02.Hand(2, 7, 8), proc.parseHand(listOf("2 blue", "4 green", "1 red", "2 blue", "3 green", "1 red", "0 red", "4 blue")))
+        assertEquals(
+            Day02.Hand(2, 7, 8),
+            proc.parseHand(listOf("2 blue", "4 green", "1 red", "2 blue", "3 green", "1 red", "0 red", "4 blue"))
+        )
     }
 
     @Test
@@ -62,12 +65,31 @@ class Day02Test {
                 )
             )
         )
+    }
 
+    @Test
+    fun `verify process for part 2`() {
+        val proc = Day02(0, 0, 0)
+        val game = Day02.Game(
+            1,
+            listOf(
+                Day02.Hand(3, 7, 2),
+                Day02.Hand(9, 2, 1)
+            )
+        )
+
+        proc.processGames(
+            listOf(game)
+        )
+
+        assertEquals(9, game.redMax)
+        assertEquals(7, game.greenMax)
+        assertEquals(2, game.blueMax)
     }
 
     @Test
     fun compute() {
-        val dataPart1 = """
+        val dataTest = """
 Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
 Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue
 Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red
@@ -75,12 +97,13 @@ Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red
 Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green
 """.trimIndent()
 
-        assertEquals(8, Day02(12, 13, 14).compute(dataPart1))
+        assertEquals(8, Day02(12, 13, 14).computePart1(dataTest))
+        assertEquals(2286, Day02(12, 13, 14).computePart2(dataTest))
     }
 
     @Test
     fun `part 1`() {
-        val dataPart1 = """
+        val data = """
 Game 1: 4 red, 5 blue, 9 green; 7 green, 7 blue, 3 red; 16 red, 7 blue, 3 green; 11 green, 11 blue, 6 red; 12 red, 14 blue
 Game 2: 12 blue, 11 green, 3 red; 6 blue, 5 green, 7 red; 5 red, 11 blue; 2 blue, 8 green
 Game 3: 8 blue, 5 green, 2 red; 5 blue, 5 green, 7 red; 7 blue, 1 green, 7 red; 8 green, 14 blue, 7 red; 8 green, 14 blue; 8 blue, 2 green, 8 red
@@ -183,6 +206,7 @@ Game 99: 1 red, 4 blue; 5 red, 8 blue; 3 blue, 1 green; 2 red, 6 blue; 8 blue, 2
 Game 100: 5 green, 1 red; 4 blue, 8 red, 4 green; 1 blue, 3 red, 15 green; 1 blue, 15 green, 1 red; 2 red, 13 green
 """.trimIndent()
 
-        assertEquals(2795, Day02(12, 13, 14).compute(dataPart1))
+        assertEquals(2795, Day02(12, 13, 14).computePart1(data))
+        assertEquals(75561, Day02(12, 13, 14).computePart2(data))
     }
 }
