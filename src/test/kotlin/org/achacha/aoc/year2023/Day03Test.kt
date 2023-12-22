@@ -11,11 +11,65 @@ class Day03Test {
         // sample
         assertEquals(4361, Day03().computePart1(sampleData))
         // part 1
-        assertEquals(517021, Day03().computePart1(dataPart1))
+        assertEquals(517021, Day03().computePart1(fullData))
     }
 
     @Test
     fun `test part 2`() {
+        // sample
+        assertEquals(467835, Day03().computePart2(sampleData))
+        // part 2
+        assertEquals(81296995, Day03().computePart2(fullData))
+    }
+
+    @Test
+    fun `find numbers by offset`() {
+        val day = Day03()
+        assertNull(day.getNumberAtOffset("", 0))
+        assertNull(day.getNumberAtOffset("10", 7))
+        assertNull(day.getNumberAtOffset("10", -1))
+        assertEquals(100, day.getNumberAtOffset("100", 0))
+        assertEquals(100, day.getNumberAtOffset("    100  ", 5))
+        assertEquals(100, day.getNumberAtOffset("   2 100 2 ", 6))
+        assertNull(day.getNumberAtOffset("222 222", 3))
+        assertNull(day.getNumberAtOffset(" 222", 0))
+        assertNull(day.getNumberAtOffset("222 ", 3))
+        assertEquals(100, day.getNumberAtOffset("100 200", 2))
+        assertEquals(200, day.getNumberAtOffset("100 200", 4))
+    }
+
+    @Test
+    fun `find nums around gear`() {
+        val day = Day03()
+        assertArrayEquals(arrayOf<Long>(100, 200, 30, 40, 500, 600), day.findNumbersAroundGear(listOf(
+            "100 200",
+            " 30*40 ",
+            "500 600"
+        ), 3, 1).toTypedArray())
+
+        assertArrayEquals(arrayOf<Long>(), day.findNumbersAroundGear(listOf(
+            "###",
+            "#*#",
+            "###"
+        ), 1, 1).toTypedArray())
+
+        assertArrayEquals(arrayOf<Long>(1, 2), day.findNumbersAroundGear(listOf(
+            "###",
+            "1*2",
+            "###"
+        ), 1, 1).toTypedArray())
+
+        assertArrayEquals(arrayOf<Long>(10, 200), day.findNumbersAroundGear(listOf(
+            "10 ",
+            " * ",
+            "200"
+        ), 1, 1).toTypedArray())
+
+        assertArrayEquals(arrayOf<Long>(10, 2), day.findNumbersAroundGear(listOf(
+            " 10",
+            " * ",
+            "2  "
+        ), 1, 1).toTypedArray())
     }
 
     @Test
@@ -50,7 +104,7 @@ class Day03Test {
 .664.598..            
 """.trimIndent()
 
-private val dataPart1 = """
+private val fullData = """
 .......262....300...................507.....961..............668.....................189.906...........................624..................
 ..148.................805..130..880*...........*684.............*......*..............*..-......%.................${'$'}........17...65....91*...
 ......272.....464.....=......*.........................208*.....260.967.38.......692*.........676............@247..652.585.#......@......74.
