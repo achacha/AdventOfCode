@@ -1,6 +1,6 @@
 package org.achacha.aoc.year2023
 
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class Day01Test {
@@ -19,12 +19,14 @@ class Day01Test {
      */
     @Test
     fun `compute from example 1`() {
-        val result = Day01().compute("""
+        val result = Day01().compute(
+            """
 1abc2
 pqr3stu8vwx
 a1b2c3d4e5f
 treb7uchet            
-""".trimIndent())
+""".trimIndent()
+        )
         println("SUM: $result")
         assertEquals(142, result)
     }
@@ -36,7 +38,8 @@ treb7uchet
      */
     @Test
     fun `compute from example 2`() {
-        val result = Day01().compute("""
+        val result = Day01().compute(
+            """
 two1nine
 eightwothree
 abcone2threexyz
@@ -44,7 +47,8 @@ xtwone3four
 4nineeightseven2
 zoneight234
 7pqrstsixteen
-""".trimIndent())
+""".trimIndent()
+        )
         println("SUM: $result")
         assertEquals(281, result)
     }
@@ -54,12 +58,14 @@ zoneight234
      */
     @Test
     fun `edge cases`() {
-        val result = Day01().compute("""
+        val result = Day01().compute(
+            """
 nonumber
 100
 
 treb7uchet            
-""".trimIndent())
+""".trimIndent()
+        )
         println("SUM: $result")
         assertEquals(87, result)
     }
@@ -68,7 +74,8 @@ treb7uchet
     // 55343 part 2
     @Test
     fun `input data part 1`() {
-        val result = Day01().compute("""
+        val result = Day01().compute(
+            """
 6798seven
 six8b32csscsdgjsevenfivedlhzhc
 fcvvkvjjnhfivesixfiveninesxlvnhfckc54
@@ -1069,7 +1076,8 @@ ggdone3nbmsthreefourninefiveoneightpr
 fourvzgnfnhkkp2
 j47three8sevenfivenfkd
 twotwo4seven1fqklblqbdxcmtch
-""".trimIndent())
+""".trimIndent()
+        )
         println("SUM: $result")
         assertEquals(55343, result)
     }

@@ -1,8 +1,11 @@
 package org.achacha.aoc.year2023
 
+import org.junit.jupiter.api.Assertions.assertArrayEquals
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-
-import org.junit.jupiter.api.Assertions.*
 
 class Day03Test {
 
@@ -41,35 +44,55 @@ class Day03Test {
     @Test
     fun `find nums around gear`() {
         val day = Day03()
-        assertArrayEquals(arrayOf<Long>(100, 200, 30, 40, 500, 600), day.findNumbersAroundGear(listOf(
-            "100 200",
-            " 30*40 ",
-            "500 600"
-        ), 3, 1).toTypedArray())
+        assertArrayEquals(
+            arrayOf<Long>(100, 200, 30, 40, 500, 600), day.findNumbersAroundGear(
+                listOf(
+                    "100 200",
+                    " 30*40 ",
+                    "500 600"
+                ), 3, 1
+            ).toTypedArray()
+        )
 
-        assertArrayEquals(arrayOf<Long>(), day.findNumbersAroundGear(listOf(
-            "###",
-            "#*#",
-            "###"
-        ), 1, 1).toTypedArray())
+        assertArrayEquals(
+            arrayOf<Long>(), day.findNumbersAroundGear(
+                listOf(
+                    "###",
+                    "#*#",
+                    "###"
+                ), 1, 1
+            ).toTypedArray()
+        )
 
-        assertArrayEquals(arrayOf<Long>(1, 2), day.findNumbersAroundGear(listOf(
-            "###",
-            "1*2",
-            "###"
-        ), 1, 1).toTypedArray())
+        assertArrayEquals(
+            arrayOf<Long>(1, 2), day.findNumbersAroundGear(
+                listOf(
+                    "###",
+                    "1*2",
+                    "###"
+                ), 1, 1
+            ).toTypedArray()
+        )
 
-        assertArrayEquals(arrayOf<Long>(10, 200), day.findNumbersAroundGear(listOf(
-            "10 ",
-            " * ",
-            "200"
-        ), 1, 1).toTypedArray())
+        assertArrayEquals(
+            arrayOf<Long>(10, 200), day.findNumbersAroundGear(
+                listOf(
+                    "10 ",
+                    " * ",
+                    "200"
+                ), 1, 1
+            ).toTypedArray()
+        )
 
-        assertArrayEquals(arrayOf<Long>(10, 2), day.findNumbersAroundGear(listOf(
-            " 10",
-            " * ",
-            "2  "
-        ), 1, 1).toTypedArray())
+        assertArrayEquals(
+            arrayOf<Long>(10, 2), day.findNumbersAroundGear(
+                listOf(
+                    " 10",
+                    " * ",
+                    "2  "
+                ), 1, 1
+            ).toTypedArray()
+        )
     }
 
     @Test
@@ -104,7 +127,7 @@ class Day03Test {
 .664.598..            
 """.trimIndent()
 
-private val fullData = """
+    private val fullData = """
 .......262....300...................507.....961..............668.....................189.906...........................624..................
 ..148.................805..130..880*...........*684.............*......*..............*..-......%.................${'$'}........17...65....91*...
 ......272.....464.....=......*.........................208*.....260.967.38.......692*.........676............@247..652.585.#......@......74.

@@ -1,8 +1,5 @@
 package org.achacha.aoc.year2023
 
-import kotlin.math.max
-import kotlin.math.min
-
 /**
  * https://adventofcode.com/2023/day/3
  */
@@ -97,31 +94,31 @@ class Day03 {
 
         // check top
         if (y > 0) {
-            val numAbove = getNumberAtOffset(grid[y-1], x)
+            val numAbove = getNumberAtOffset(grid[y - 1], x)
             if (numAbove != null) numbers.add(numAbove)
             else {
                 // directly above is not a number, check diagonals above
-                numbers.addIfNotNull(getNumberAtOffset(grid[y-1], x-1))
-                numbers.addIfNotNull(getNumberAtOffset(grid[y-1], x+1))
+                numbers.addIfNotNull(getNumberAtOffset(grid[y - 1], x - 1))
+                numbers.addIfNotNull(getNumberAtOffset(grid[y - 1], x + 1))
             }
         }
 
         // check left
         if (x - 1 >= 0)
-            numbers.addIfNotNull(getNumberAtOffset(grid[y], x-1))
+            numbers.addIfNotNull(getNumberAtOffset(grid[y], x - 1))
 
         // check right
         if (x + 1 < grid[0].length)
-            numbers.addIfNotNull(getNumberAtOffset(grid[y], x+1))
+            numbers.addIfNotNull(getNumberAtOffset(grid[y], x + 1))
 
         // check bottom
-        if (y < grid.size-1) {
-            val numBelow = getNumberAtOffset(grid[y+1], x)
+        if (y < grid.size - 1) {
+            val numBelow = getNumberAtOffset(grid[y + 1], x)
             if (numBelow != null) numbers.add(numBelow)
             else {
                 // directly above is not a number, check diagonals above
-                numbers.addIfNotNull(getNumberAtOffset(grid[y+1], x-1))
-                numbers.addIfNotNull(getNumberAtOffset(grid[y+1], x+1))
+                numbers.addIfNotNull(getNumberAtOffset(grid[y + 1], x - 1))
+                numbers.addIfNotNull(getNumberAtOffset(grid[y + 1], x + 1))
             }
         }
 
@@ -134,26 +131,15 @@ class Day03 {
         var start = x
         var end = x
         while (start >= 0) {
-            if (start-1 < 0) break
-            if (line[start-1].isDigit()) start-- else break
+            if (start - 1 < 0) break
+            if (line[start - 1].isDigit()) start-- else break
         }
         while (end < line.length) {
-            if (end+1 >= line.length) break
-            if (line[end+1].isDigit()) end++ else break
+            if (end + 1 >= line.length) break
+            if (line[end + 1].isDigit()) end++ else break
         }
 
         return line.substring(start..end).toLong()
-    }
-
-    fun getNumberAtOffset2(line: String, x: Int): Long? {
-        if (x < 0 || x >= line.length || !line[x].isDigit()) return null
-
-        var start = x
-        var end = x
-        while (start > 0 && line[start].isDigit()) start--
-        while (end < line.length && line[end].isDigit()) end++
-
-        return line.substring(max(0, start)..min(end-1, line.length-1)).toLong()
     }
 }
 

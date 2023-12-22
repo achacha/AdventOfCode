@@ -98,7 +98,7 @@ class Day02(
      * Filter out any game where a hand doesn't meet the limit
      */
     fun processGames(games: List<Game>): List<Game> {
-        games.forEach { game->
+        games.forEach { game ->
             game.hands.forEach {
                 game.redMax = max(game.redMax, it.red)
                 game.greenMax = max(game.greenMax, it.green)
