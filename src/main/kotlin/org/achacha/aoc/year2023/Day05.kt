@@ -97,12 +97,6 @@ t1 s1 r1
         return lowestSeedIndex
     }
 
-    fun getLowestLocationForSeedRangesRunOutOfMemory(): Long {
-        return seedRanges.flatMap(this::expandRange).minOfOrNull {
-            findLocationFromSeed(it).last().second
-        } ?: throw IllegalStateException("Unable to find any location for any of the seeds")
-    }
-
     fun expandRange(pair: Pair<Long, Long>): List<Long> {
         val expanded = mutableListOf<Long>()
         for (i in pair.first..<pair.first + pair.second) expanded.add(i)
