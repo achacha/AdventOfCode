@@ -2,7 +2,7 @@ package org.achacha.aoc.year2023
 
 class Day08(input: String) {
 
-    val nodeRegex = Regex("([A-Z]+) = \\(([A-Z]+), ([A-Z]+)\\)")
+    val nodeRegex = Regex("(\\w+) = \\((\\w+), (\\w+)\\)")
 
     val startNodeName = "AAA"
     val endNodeName = "ZZZ"
@@ -63,10 +63,6 @@ class Day08(input: String) {
                 ?: throw IllegalArgumentException("Node not found to map left: `${match.groupValues[3]}`")
         }
 
-        // Validation
-        if (nodes[startNodeName] == null) throw IllegalArgumentException("Missing required node: $startNodeName")
-        if (nodes[endNodeName] == null) throw IllegalArgumentException("Missing required node: $endNodeName")
-
 //        print(nodes)
     }
 
@@ -95,5 +91,112 @@ class Day08(input: String) {
         }
 
         return step
+    }
+
+    fun part2(): Long {
+        // Gather all nodes that end in A
+        val nodeList: MutableList<Node> = nodes
+            .filterKeys { it.endsWith('A') }
+            .values
+            .toMutableList()
+
+        var step = 0L
+        val dirlen: Long = directions.length.toLong()
+        while (true) {
+            val direction = directions[(step++ % dirlen).toInt()]
+            print(nodeList.map { it.name }.joinToString(",") + "-[$direction]->")
+
+            // Advance all nodes in list
+            for (i in nodeList.indices) {
+                nodeList.set(
+                    i, when (direction) {
+                        'L' -> {
+                            nodeList[i].left
+                        }
+
+                        'R' -> {
+                            nodeList[i].right
+                        }
+
+                        else -> throw IllegalStateException("Invalid direction: `$direction`")
+                    }
+                        ?: throw IllegalStateException("Node path leads to unmapped node, not-expected, debugging required")
+                )
+            }
+
+            // Check if all nodes in list end with Z
+            println(nodeList.map { it.name }.joinToString(","))
+            if (nodeList.all { it.name.endsWith('Z') }) break
+        }
+
+        return step
+    }
+
+    fun part2period(): Long {
+        // Gather all nodes that end in A
+        val nodeList: MutableList<Node> = nodes
+            .filterKeys { it.endsWith('A') }
+            .values
+            .toMutableList()
+
+        var result = mutableListOf<Long>()
+        val dirlen: Long = directions.length.toLong()
+        for (i in nodeList.indices) {
+            var step = 0L
+            var ptr: Node? = nodeList[i]
+            while (ptr?.name?.endsWith('Z') == false) {
+                val direction = directions[(step++ % dirlen).toInt()]
+                //print("${ptr.name}-[$direction]->")
+
+                ptr = when (direction) {
+                    'L' -> {
+                        ptr.left
+                    }
+
+                    'R' -> {
+                        ptr.right
+                    }
+
+                    else -> throw IllegalStateException("Invalid direction: `$direction`")
+
+                }
+
+                //println("${ptr?.name}")
+                if (ptr?.name?.endsWith('Z') == true) {
+                    //println(".....$step")
+                    result.add(step)
+                    continue
+                }
+            }
+        }
+
+        return lcm(result)
+    }
+
+    private fun gcd(a: Long, b: Long): Long {
+        var a = a
+        var b = b
+        while (b > 0) {
+            val temp = b
+            b = a % b // % is remainder
+            a = temp
+        }
+        return a
+    }
+
+    private fun gcd(input: List<Long>): Long {
+        var result = input[0]
+        for (i in 1..<input.size) result = gcd(result, input[i])
+        return result
+    }
+
+    private fun lcm(a: Long, b: Long): Long {
+        return a * (b / gcd(a, b))
+    }
+
+    private fun lcm(input: List<Long>): Long {
+        var result = input[0]
+        for (i in 1..<input.size) result = lcm(result, input[i])
+        return result
     }
 }

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 class Day08Test {
     @Test
     fun `test parser`() {
-        val day08 = Day08(sampleData)
+        val day08 = Day08(sampleDataPart1)
         assertEquals("RL", day08.directions)
         assertEquals(7, day08.nodes.size)
         assertEquals("[AAA = (BBB*, CCC*)]", day08.nodes["AAA"].toString())
@@ -16,13 +16,30 @@ class Day08Test {
 
     @Test
     fun part1() {
-        assertEquals(2, Day08(sampleData).part1())
-        assertEquals(6, Day08(sample6stepData).part1())
+        assertEquals(2, Day08(sampleDataPart1).part1())
+        assertEquals(6, Day08(sample6stepDataPart1).part1())
 
         assertEquals(16043, Day08(fullData).part1())
     }
 
-    val sampleData = """
+    @Test
+    fun part2() {
+        assertEquals(6, Day08(sampleDataPart2).part2())
+
+        assertEquals(15726453850399, Day08(fullData).part2())
+    }
+
+    /**
+     * Least Common Multiplier with individual paths is much faster than brute force
+     */
+    @Test
+    fun part2period() {
+        assertEquals(6, Day08(sampleDataPart2).part2period())
+
+        assertEquals(15726453850399, println(Day08(fullData).part2period()))
+    }
+
+    val sampleDataPart1 = """
 RL
 
 AAA = (BBB, CCC)
@@ -34,12 +51,25 @@ GGG = (GGG, GGG)
 ZZZ = (ZZZ, ZZZ)
 """.trimIndent()
 
-    val sample6stepData = """
+    val sample6stepDataPart1 = """
 LLR
 
 AAA = (BBB, BBB)
 BBB = (AAA, ZZZ)
 ZZZ = (ZZZ, ZZZ)
+""".trimIndent()
+
+    val sampleDataPart2 = """
+LR
+
+11A = (11B, XXX)
+11B = (XXX, 11Z)
+11Z = (11B, XXX)
+22A = (22B, XXX)
+22B = (22C, 22C)
+22C = (22Z, 22Z)
+22Z = (22B, 22B)
+XXX = (XXX, XXX)
 """.trimIndent()
 
     val fullData = """
