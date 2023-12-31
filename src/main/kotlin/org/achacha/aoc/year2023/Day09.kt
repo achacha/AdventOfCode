@@ -21,6 +21,22 @@ class Day09 {
             .sum()
     }
 
+    fun part2(input: String): Long {
+        return parseInput(input)
+            .mapIndexed { lino, linenums ->
+                val sequenceArray = processLinePart1(linenums)
+
+                // Sum up last of each line from end
+                var result = 0L
+                for (i in sequenceArray.size-1 downTo 0 step 1) {
+                    result = sequenceArray[i][0] - result
+                }
+//                println("line[$lino]=$result")
+                result
+            }
+            .sum()
+    }
+
     fun parseInput(input: String): List<List<Int>> {
         return input.lines().map { line ->
             line.split(" ").filter(String::isNotBlank).map(String::toInt)

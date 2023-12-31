@@ -22,6 +22,12 @@ class Day09Test {
         assertEquals(1993300041, Day09().part1(fullData))
     }
 
+    @Test
+    fun testPart2() {
+        assertEquals(2, Day09().part2(sampleData))
+        assertEquals(1038, Day09().part2(fullData))
+    }
+
     val sampleData = """
 0 3 6 9 12 15
 1 3 6 10 15 21
