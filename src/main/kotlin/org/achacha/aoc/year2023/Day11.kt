@@ -6,22 +6,18 @@ import kotlin.math.abs
  * https://adventofcode.com/2023/day/11
  */
 class Day11(
-    val input: String
+    val input: String,
+    private val offsetModifier: Long = 2
 ) {
     lateinit var inputGrid: Array<CharArray>
 
-    var expandedGrid: Array<CharArray>
-
-    var galaxiesExpanded = mutableListOf<Pair<Int, Int>>()
+    var galaxiesExpanded = mutableListOf<Pair<Long, Long>>()
 
     val blankRows: MutableList<Int> = mutableListOf()
     val blankCols: MutableList<Int> = mutableListOf()
 
     init {
         parseInput(input)
-
-        // Allocate expanded grid
-        expandedGrid = Array(inputGrid.size + blankRows.size) { CharArray(inputGrid[0].size + blankCols.size) { '.' } }
 
         mapGalaxiesIntoExpandedGrid()
     }
@@ -52,24 +48,23 @@ class Day11(
     }
 
     fun mapGalaxiesIntoExpandedGrid() {
-        var offsetY = 0
+        var offsetY = 0L
         for (y in inputGrid.indices) {
-            var offsetX = 0
-            if (blankRows.contains(y)) ++offsetY
+            var offsetX = 0L
+            if (blankRows.contains(y)) offsetY += (offsetModifier - 1)
             for (x in inputGrid.indices) {
-                if (blankCols.contains(x)) ++offsetX
+                if (blankCols.contains(x)) offsetX += (offsetModifier - 1)
                 if (inputGrid[y][x] == '#') {
-                    expandedGrid[y + offsetY][x + offsetX] = '#'
                     galaxiesExpanded.add(Pair(x + offsetX, y + offsetY))
                 }
             }
         }
     }
 
-    fun distanceBetweenPoints(i0: Int, i1: Int): Int =
+    fun distanceBetweenPoints(i0: Int, i1: Int): Long =
         abs(galaxiesExpanded[i1].first - galaxiesExpanded[i0].first) + abs(galaxiesExpanded[i1].second - galaxiesExpanded[i0].second)
 
-    fun part1(): Int {
+    fun part1and2(): Long {
         // Create combinations
         // List of pairs of the indices
         val combinations: MutableList<Pair<Int, Int>> = mutableListOf()

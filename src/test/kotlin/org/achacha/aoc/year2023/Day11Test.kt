@@ -11,32 +11,11 @@ class Day11Test {
         assertEquals(listOf(3, 7), day.blankRows)
         assertEquals(listOf(2, 5, 8), day.blankCols)
         assertEquals(part1Data, day.inputGrid.asString())
-        assertEquals(day.inputGrid.size + day.blankRows.size, day.expandedGrid.size)
-        assertEquals(day.inputGrid[0].size + day.blankCols.size, day.expandedGrid[0].size)
     }
 
     @Test
-    fun `test expanded grid`() {
+    fun `test galaxy expander`() {
         val day = Day11(part1Data)
-//        println(day.galaxiesExpanded)
-//        println(day.expandedGrid.asString())
-        assertEquals(
-            """
-....#........
-.........#...
-#............
-.............
-.............
-........#....
-.#...........
-............#
-.............
-.............
-.........#...
-#....#.......
-""".trimIndent(), day.expandedGrid.asString()
-        )
-//        println(day.galaxiesExpanded.toString())
         assertEquals(
             "[(4, 0), (9, 1), (0, 2), (8, 5), (1, 6), (12, 7), (9, 10), (0, 11), (5, 11)]",
             day.galaxiesExpanded.toString()
@@ -66,11 +45,12 @@ class Day11Test {
 
     @Test
     fun `test part1`() {
-        val day = Day11(part1Data)
-        assertEquals(374, day.part1())
+        assertEquals(374L, Day11(part1Data).part1and2())
+        assertEquals(1030L, Day11(part1Data, 10).part1and2())
+        assertEquals(8410L, Day11(part1Data, 100).part1and2())
 
-        val dayFull = Day11(dataFull)
-        assertEquals(9684228, dayFull.part1())
+        assertEquals(9684228L, Day11(dataFull).part1and2())
+        assertEquals(483844716556, Day11(dataFull, 1000000).part1and2())
     }
 
     val part1Data = """
