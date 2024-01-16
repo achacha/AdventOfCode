@@ -1,6 +1,8 @@
 package org.achacha.aoc.year2023
 
+import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 
 class Day10Test {
@@ -10,15 +12,14 @@ class Day10Test {
         val day1 = Day10(sampleData)
         assertEquals(5, day1.grid.size)
         assertEquals(5, day1.grid[0].size)
-        assertEquals(1, day1.startPoint.first)
-        assertEquals(1, day1.startPoint.second)
+        assertEquals(1, day1.startPoint?.first)
+        assertEquals(1, day1.startPoint?.second)
         assertEquals(sampleData, day1.grid.asString())
 
         val day2 = Day10(nonSquareGrid)
         assertEquals(5, day2.grid.size)
         assertEquals(9, day2.grid[0].size)
-        assertEquals(6, day2.startPoint.first)
-        assertEquals(3, day2.startPoint.second)
+        assertNull(day2.startPoint)
         assertEquals(nonSquareGrid, day2.grid.asString())
     }
 
@@ -69,14 +70,91 @@ class Day10Test {
         val day = Day10(sampleData)
         assertEquals(8, day.navigateUntilS())
         assertEquals(4, day.part1())
+        println("day\n---\n" + day.grid1.asString())
+        assertEquals(
+            """
+.......
+.......
+..S-7..
+..|.|..
+..L-J..
+.......
+.......
+""".trimIndent(), day.grid1.asString()
+        )
+        day.floodFill()
+//        println("day\n---\n"+day.grid1.asString())
+        assertEquals(
+            """
+~~~~~~~
+~~~~~~~
+~~S-7~~
+~~|.|~~
+~~L-J~~
+~~~~~~~
+~~~~~~~            
+""".trimIndent(), day.grid1.asString()
+        )
+        assertEquals(1, day.countUnfilledSpaceGrid1())
 
         val daye = Day10(sampleDataWithExtras)
         assertEquals(8, daye.navigateUntilS())
         assertEquals(4, daye.part1())
+        assertEquals(
+            """
+.......
+.......
+..S-7..
+..|.|..
+..L-J..
+.......
+.......
+""".trimIndent(), daye.grid1.asString()
+        )
+        daye.floodFill()
+//        println("daye\n---\n"+daye.grid1.asString())
+        assertEquals(
+            """
+~~~~~~~
+~~~~~~~
+~~S-7~~
+~~|.|~~
+~~L-J~~
+~~~~~~~
+~~~~~~~
+""".trimIndent(), daye.grid1.asString()
+        )
+        assertEquals(1, daye.countUnfilledSpaceGrid1())
+
 
         val dayc = Day10(sampleDataComplex)
         assertEquals(16, dayc.navigateUntilS())
         assertEquals(8, dayc.part1())
+        assertEquals(
+            """
+.......
+...F7..
+..FJ|..
+.SJ.L7.
+.|F--J.
+.LJ....
+.......
+""".trimIndent(), dayc.grid1.asString()
+        )
+        dayc.floodFill()
+//        println("dayc\n---\n"+dayc.grid1.asString())
+        assertEquals(
+            """
+~~~~~~~
+~~~F7~~
+~~FJ|~~
+~SJ.L7~
+~|F--J~
+~LJ~~~~
+~~~~~~~
+""".trimIndent(), dayc.grid1.asString()
+        )
+
     }
 
     @Test
@@ -84,6 +162,168 @@ class Day10Test {
         val dayc = Day10(fullData)
         assertEquals(6897, dayc.part1())
     }
+
+    @Test
+    fun `test flood fill`() {
+        val day0 = Day10(sampleData)
+        day0.grid1 = day0.grid      // This will be populated while navigating
+        day0.floodFill()
+        assertEquals(
+            """
+~~~~~
+~S-7~
+~|.|~
+~L-J~
+~~~~~""".trimIndent(), day0.grid1.asString()
+        )
+        assertEquals(1, day0.countUnfilledSpaceGrid1())
+
+        val day1 = Day10(fillableGrid)
+        day1.grid1 = day1.grid
+        day1.floodFill()
+        assertEquals(
+            """
+~~~~~
+~-|-~
+~~|~~
+~~~~~
+""".trimIndent(), day1.grid1.asString()
+        )
+        assertEquals(0, day1.countUnfilledSpaceGrid1())
+    }
+
+    @Test
+    fun `fill enclosed`() {
+        val day = Day10(
+            """
+S------7
+|F7F-7.|
+||||FJ.|
+||||L--J
+LJLJ....
+""".trimIndent()
+        )
+        print("part2=" + day.part2())
+        print(day.grid1.asString())
+
+    }
+
+    @Test
+    fun `part2 flood fill test`() {
+        val day1 = Day10(part2example1Data)
+        day1.navigateUntilS()
+        day1.floodFill()
+//        println(day_e1.grid1.asString())
+        assertEquals(
+            """
+~~~~~~~~~~~~~
+~~~~~~~~~~~~~
+~~S-------7~~
+~~|F-----7|~~
+~~||~~~~~||~~
+~~||~~~~~||~~
+~~|L-7~F-J|~~
+~~|..|~|..|~~
+~~L--J~L--J~~
+~~~~~~~~~~~~~
+~~~~~~~~~~~~~
+""".trimIndent(), day1.grid1.asString()
+        )
+        assertEquals(4, day1.countUnfilledSpaceGrid1())
+
+        val day2 = Day10(part2example2Data)
+        day2.navigateUntilS()
+        day2.floodFill()
+        println(day2.grid1.asString())
+        assertEquals(
+            """
+~~~~~~~~~~~~~~~~~~~~~~
+~~F----7F7F7F7F-7~~~~~
+~~|F--7||||||||FJ~~~~~
+~~||~FJ||||||||L7~~~~~
+~FJL7L7LJLJ||LJ.L-7~~~
+~L--J~L7...LJS7F-7L7~~
+~~~~~F-J..F7FJ|L7L7L7~
+~~~~~L7.F7||L7|.L7L7|~
+~~~~~~|FJLJ|FJ|F7|~LJ~
+~~~~~FJL-7~||~||||~~~~
+~~~~~L---J~LJ~LJLJ~~~~
+~~~~~~~~~~~~~~~~~~~~~~""".trimIndent(), day1.grid1.asString()
+        )
+        assertEquals(8, day2.countUnfilledSpaceGrid1())
+    }
+
+    @Test
+    fun `test aggressive fill 1`() {
+        val dayA = Day10(
+            """
+F--SF--7
+|.FJL7.|
+|.|..|.|
+|.L--J.|
+L------J
+        """.trimIndent()
+        )
+
+        dayA.navigateUntilS()
+//        println("BEFORE\n"+dayA.grid1.asString())
+        runBlocking { dayA.fillGrid1Aggressive(dayA.startPoint!!, Day10.Direction.E) }
+//        println("AFTER\n"+dayA.grid1.asString())
+        assertEquals(
+            """
+~~~~~~~~~~
+~F--7F--7~
+~|.FJL7.|~
+~|.|~~|.|~
+~|.L--J.|~
+~L------J~
+~~~~~~~~~~
+""".trimIndent(), dayA.grid1.asString()
+        )
+    }
+
+    @Test
+    fun `test aggressive fill 2`() {
+        val dayA = Day10(
+            """
+FS..            
+||..
+|L-7
+|..|
+L--J
+""".trimIndent()
+        )
+
+        dayA.navigateUntilS()
+//        println("BEFORE\n"+dayA.grid1.asString())
+        dayA.expandGrid1ToGrid2()
+//        println("AFTER EXPAND\n"+dayA.grid2.asString())
+        runBlocking { dayA.floodFillGrid2(Pair(0, 0)) }
+//        println("AFTER FILL\n"+dayA.grid2.asString())
+        dayA.normalizeAfterFillGrid2()
+//        println("AFTER NORMALIZE\n"+dayA.grid2.asString())
+        assertEquals(2, dayA.countUnfilledSpaceGrid2())
+    }
+
+    @Test
+    fun `test part2 part2example1Data`() {
+        val day = Day10(part2example1Data)
+        assertEquals(4, day.part2())
+    }
+
+    @Test
+    fun `test part2 part2example2Data`() {
+        val day = Day10(part2example2Data)
+        assertEquals(8, day.part2())
+    }
+
+    @Test
+    fun `test part2 fullData`() {
+        val day = Day10(fullData)
+        println("COUNT: ${day.part2()}")
+//        assertEquals(367, day.part2())
+    }
+
 
     // start at 1,1
     val sampleData = """
@@ -116,6 +356,38 @@ LJ...
 ..|...|..
 ..L---J..
 .........
+""".trimIndent()
+
+    val fillableGrid = """
+.....
+.-|-.
+..|..
+.....
+""".trimIndent()
+
+    val part2example1Data = """
+...........
+.S-------7.
+.|F-----7|.
+.||.....||.
+.||.....||.
+.|L-7.F-J|.
+.|..|.|..|.
+.L--J.L--J.
+...........
+""".trimIndent()
+
+    val part2example2Data = """
+.F----7F7F7F7F-7....
+.|F--7||||||||FJ....
+.||.FJ||||||||L7....
+FJL7L7LJLJ||LJ.L-7..
+L--J.L7...LJS7F-7L7.
+....F-J..F7FJ|L7L7L7
+....L7.F7||L7|.L7L7|
+.....|FJLJ|FJ|F7|.LJ
+....FJL-7.||.||||...
+....L---J.LJ.LJLJ...
 """.trimIndent()
 
     val fullData = """
