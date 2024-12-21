@@ -3,9 +3,8 @@ package org.achacha.aoc.year2023
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import org.achacha.common.asString
 
-
-fun Array<CharArray>.asString(): String = this.joinToString("\n", transform = { it.joinToString("") })
 
 /**
  * https://adventofcode.com/2023/day/10

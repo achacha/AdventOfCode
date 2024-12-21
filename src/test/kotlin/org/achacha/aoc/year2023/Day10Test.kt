@@ -1,6 +1,7 @@
 package org.achacha.aoc.year2023
 
 import kotlinx.coroutines.runBlocking
+import org.achacha.common.asString
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test

@@ -3,6 +3,9 @@ package org.achacha.aoc.year2024
 import org.achacha.common.load2column_Int
 import kotlin.math.abs
 
+/**
+ * https://adventofcode.com/2024/day/1
+ */
 class Day2401 {
     fun part1(resourcePath: String): Int {
         // read data
