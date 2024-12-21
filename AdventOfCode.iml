@@ -44,5 +44,7 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="jetbrains.kotlinx.coroutines.core" level="project" />
+    <orderEntry type="library" name="apache.commons.text" level="project" />
+    <orderEntry type="library" name="apache.commons.math3" level="project" />
   </component>
 </module>

@@ -35,6 +35,13 @@ fun load2column_Int(resourcePath: String, delim: String = " "): List<Array<Int>>
 }
 
 /**
+ * Given resource path
+ * @return Contents as String
+ */
+fun load2String(resourcePath: String): String =
+    object {}.javaClass.getResourceAsStream(resourcePath)?.bufferedReader(Charsets.UTF_8).use { it?.readText() } ?: ""
+
+/**
  * Show array as string
  */
 fun Array<CharArray>.asString(): String = this.joinToString("\n", transform = { it.joinToString("") })
