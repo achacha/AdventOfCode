@@ -29,7 +29,44 @@ class Day2403 {
         return sumOfProducts
     }
 
-    fun part2(resourcePath: String): Int {
-        return 0
+    fun extractValidCode(input: String): String {
+        var adding = true
+        var outputBuffer = StringBuilder()
+
+        // Split with do and if `()` then adding enabled, `n't()` then disable, otherwise just append
+        val segments = input.split("do")
+        for (i in segments.indices) {
+            val segment = segments[i]
+            if (segment.startsWith("n't()")) {
+                adding = false
+                continue
+            }
+            else if (segment.startsWith("()")) {
+                adding = true
+                outputBuffer.append(segment.substring(2))
+            }
+            else if (adding) {
+                if (i > 0) outputBuffer.append("do")
+                outputBuffer.append(segment)
+            }
+        }
+        return outputBuffer.toString()
+    }
+
+    fun part2(resourcePath: String): Long {
+        val data = extractValidCode(load2String(resourcePath))
+        var sumOfProducts: Long = 0
+        regex.findAll(data).forEach {
+            if (debug) println(it.value)
+            val numStr0 = it.groupValues[1]
+            val numStr1 = it.groupValues[2]
+
+            // Verify numbers
+            if (NumberUtils.isCreatable(numStr0) && NumberUtils.isCreatable(numStr0)) {
+                sumOfProducts += numStr0.toLong() * numStr1.toLong()
+            }
+        }
+
+        return sumOfProducts
     }
 }
