@@ -39,4 +39,14 @@ val lines = listOf(
     fun `part 1`() {
         assertEquals(2575, Day2404().part1("/year2024/day04.txt"))
     }
+
+    @Test
+    fun `part 2 sample`() {
+        assertEquals(9, Day2404().part2("/year2024/day04_sample2.txt"))
+    }
+
+    @Test
+    fun `part 2`() {
+        assertEquals(2041, Day2404().part2("/year2024/day04.txt"))
+    }
 }
