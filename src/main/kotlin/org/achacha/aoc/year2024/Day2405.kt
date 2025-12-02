@@ -66,4 +66,48 @@ class Day2405(resourcePath: String) {
 
         return sum
     }
+
+    fun part2(): Long {
+        var sum = 0L
+        updateLists.map { numbersOriginal ->
+            val numbers = numbersOriginal.toMutableList()
+
+            var result = true
+            // Check that precedence is correct
+            for (i in numbers.indices.reversed()) {
+                val updateNum = numbers[i]
+
+                if (debug) println("Numbers: $numbers, updateNum: $updateNum")
+                if (i == 0) break
+
+                // Check that all occurrences in precedence do not contain RHS before this one
+                result = result && precedencePairs
+                    .filter { it.first == updateNum }
+                    .all { pair->
+                        var checkresult = false
+                        if (debug) println("Checking: ${pair}")
+                        for (j in i-1 downTo 0) {
+                            if (debug) println("Precedence check: ${numbers[j]} and ${pair}")
+                            if (numbers[j] == pair.second) {
+                                // reorder and keep going
+                                if (debug) println("Precedence fail: ${numbers[j]} and ${pair}")
+
+                                
+
+                                if (debug) println("Reorder from $numbersOriginal to $numbers")
+                                checkresult = true
+                            }
+                        }
+                        checkresult
+                    }
+
+            }
+            if (result) {
+                sum += numbers[numbers.size/2]
+            }
+        }
+
+        return sum
+    }
+
 }
