@@ -2,7 +2,7 @@ package org.achacha.common
 
 /**
  * Given resource path
- * Real lines separated by delimiter, clean white space
+ * Read lines separated by delimiter, clean white space
  * @return List of Array of String
  */
 fun load2column(resourcePath: String, delim: String = " "): List<Array<String>> {
@@ -35,14 +35,14 @@ fun load2column_Int(resourcePath: String, delim: String = " "): List<Array<Int>>
 }
 
 /**
- * Given resource path
+ * Given resource path, read it into a String
  * @return Contents as String
  */
 fun load2String(resourcePath: String): String =
     object {}.javaClass.getResourceAsStream(resourcePath)?.bufferedReader(Charsets.UTF_8).use { it?.readText() } ?: ""
 
 /**
- * Given resource path
+ * Given resource path read lines into List<String>
  * @return Contents as String lines in a list
  */
 fun load2StringLines(resourcePath: String): List<String> =
