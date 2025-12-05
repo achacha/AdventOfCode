@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import java.math.BigInteger
 
 class Day2502Test {
     @Test
@@ -53,6 +54,33 @@ class Day2502Test {
     @Test
     fun part1() {
         val resultDay2502 = Day2502().part1("/year2025/day2502.txt")
-        assertEquals(1000000000000, resultDay2502)
+        assertEquals(40214376723, resultDay2502)
+    }
+
+    @Test
+    fun testContainsRepeatingSequential() {
+        val d = Day2502()
+        assertEquals("1212", d.containsRepeatingSequential("1212"))
+        assertEquals("1234512345", d.containsRepeatingSequential("1234512345"))
+        assertEquals("123123123", d.containsRepeatingSequential("123123123"))
+        assertEquals("828282", d.containsRepeatingSequential("828282"))
+        assertEquals("111", d.containsRepeatingSequential("111"))
+
+        assertNull(d.containsRepeatingSequential("110"))
+        assertNull(d.containsRepeatingSequential("12312312"))
+        assertNull(d.containsRepeatingSequential("121312"))
+        assertNull(d.containsRepeatingSequential("1021012"))
+    }
+
+    @Test
+    fun part2sample() {
+        val resultDay2502Sample = Day2502().part2("/year2025/day2502_sample.txt")
+        assertEquals(BigInteger("4174379265"), resultDay2502Sample)
+    }
+
+    @Test
+    fun part2() {
+        val resultDay2502 = Day2502().part2("/year2025/day2502.txt")
+        assertEquals(BigInteger("50793864718"), resultDay2502)
     }
 }
