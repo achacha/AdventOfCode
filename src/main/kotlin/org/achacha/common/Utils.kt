@@ -76,3 +76,26 @@ fun List<String>.getAt(x: Int, y: Int): Char =
     if (y >= this.size || y < 0) '\u0000'
     else if (x >= this[y].length || x < 0) '\u0000'
     else this[y][x]
+
+/**
+ * Add 1 to the strings ASCII value
+ * Treats characters as their ASCII value so a->b  0->1 etc
+ * @param num Input to add 1 to
+ * @return num + 1
+ */
+fun stringNumberIncrementer(num: String): String {
+    val r = StringBuilder(num.length + 1)
+    var pos = num.length - 1
+    var carry = 0
+    var adder = 1
+    while (pos >= 0) {
+        val n = num[pos] + adder + carry
+        r.append(if (n > '9') { carry = 1; n - 10 } else { carry = 0; n })
+        pos--
+        adder = 0
+    }
+
+    if (carry > 0) r.append(carry)
+
+    return r.toString().reversed()
+}

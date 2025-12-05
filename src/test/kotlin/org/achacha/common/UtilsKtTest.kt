@@ -1,5 +1,6 @@
 package org.achacha.common
 
+import org.achacha.aoc.year2025.Day2502
 import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -45,4 +46,15 @@ class UtilsKtTest {
         assertArrayEquals(arrayOf(0,1,2,3), removeOne(arrayOf(0,1,2,3,4), 4))
         assertArrayEquals(arrayOf(0,1,3,4), removeOne(arrayOf(0,1,2,3,4), 2))
     }
+
+    @Test
+    fun testIncrementer() {
+//        assertEquals("00002", stringNumberIncrementer("00001"))
+//        assertEquals("99999", stringNumberIncrementer("99998"))
+//        assertEquals("6", stringNumberIncrementer("5"))
+//        assertEquals("100", stringNumberIncrementer("99"))
+//        assertEquals("99999", stringNumberIncrementer("99998"))
+        assertEquals("20", stringNumberIncrementer("19"))
+    }
+
 }
