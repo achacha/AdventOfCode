@@ -49,12 +49,24 @@ class UtilsKtTest {
 
     @Test
     fun testIncrementer() {
-//        assertEquals("00002", stringNumberIncrementer("00001"))
-//        assertEquals("99999", stringNumberIncrementer("99998"))
-//        assertEquals("6", stringNumberIncrementer("5"))
-//        assertEquals("100", stringNumberIncrementer("99"))
-//        assertEquals("99999", stringNumberIncrementer("99998"))
+        assertEquals("00002", stringNumberIncrementer("00001"))
+        assertEquals("99999", stringNumberIncrementer("99998"))
+        assertEquals("6", stringNumberIncrementer("5"))
+        assertEquals("100", stringNumberIncrementer("99"))
+        assertEquals("99999", stringNumberIncrementer("99998"))
         assertEquals("20", stringNumberIncrementer("19"))
     }
 
+    @Test
+    fun testLoadCharGrid() {
+        val grid = loadCharGrid("/unittest/chargrid_1.txt")
+        assertEquals(4, grid.size)
+        assertEquals(4, grid[0].size)
+        assertEquals('A', grid[0][0])
+        assertEquals('B', grid[0][1])
+        assertEquals('D', grid[0][3])
+        assertEquals('F', grid[1][1])
+        assertEquals('K', grid[2][2])
+        assertEquals('P', grid[3][3])
+    }
 }

@@ -16,7 +16,7 @@ fun load2column(resourcePath: String, delim: String = " "): List<Array<String>> 
 
 /**
  * Given resource path
- * Real lines separated by delimiter, clean white space
+ * Read lines separated by delimiter, clean white space
  * @return List of Array of Int
  */
 fun load2column_Int(resourcePath: String, delim: String = " "): List<Array<Int>> {
@@ -31,6 +31,13 @@ fun load2column_Int(resourcePath: String, delim: String = " "): List<Array<Int>>
                 .map(Integer::valueOf)
                 .toTypedArray()
         }?.toList() ?: emptyList()
+    }
+}
+
+fun loadCharGrid(resourcePath: String): Array<CharArray> {
+    return object {}.javaClass.getResourceAsStream(resourcePath)?.bufferedReader(Charsets.UTF_8).use {
+        val lines = it?.readLines() ?: emptyList()
+        lines.map(String::toCharArray).toTypedArray()
     }
 }
 
