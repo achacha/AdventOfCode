@@ -3,6 +3,7 @@ package org.achacha.aoc.year2025
 import org.achacha.common.load2StringLines
 import java.math.BigDecimal
 import java.math.BigInteger
+import java.util.Stack
 import kotlin.compareTo
 import kotlin.math.max
 
@@ -45,37 +46,28 @@ class Day2503 {
         return result
     }
 
-    fun remove1(row: String, i0: Int): String {
-        return row.substring(0, i0) + row.substring(i0 + 1)
-    }
+    fun findLargestMonotonicStack(row: String): String {
+        val stack = Stack<Char>()
 
-    fun remove3(row: String, i0: Int, i1: Int, i2: Int): BigInteger {
-        val mid = row.toCharArray()
-            .mapIndexed { i, c -> if (i == i0 || i == i1 || i == i2) '_' else c }
-            .filter { it != '_' }
-            .joinToString("")
+        stack.push('0')
+        for (i in 0 ..< row.length) {
+            val c = row[i]
+            if (row.length - i <= 12 - stack.size) { stack.push(c); continue; }
 
-        return mid.toBigInteger()
-    }
-
-    fun findHighest(row: String): BigInteger {
-        if (row.length == 12) return BigInteger(row)
-        else {
-            var currentHighest = BigInteger.ZERO
-            for (x in 0 ..< row.length) {
-                val subrow = remove1(row, x)
-                val n = findHighest(subrow)
-//                println(" Subtest:\t\t$subrow")
-                if (n > currentHighest) currentHighest = n
+            var top = stack.peek()
+            while (
+                stack.isNotEmpty()
+                && c > top
+                && stack.size + (row.length - i) > 12
+            ) {
+                stack.pop()
+                if (stack.isNotEmpty())
+                    top = stack.peek()
             }
-            return currentHighest
+            if (stack.size < 12) stack.push(c)
         }
-    }
 
-    fun removeFirst(row: String, c: Char): String {
-        val pos = row.indexOf(c)
-        if (pos == -1) throw IllegalArgumentException("Cannot find $c in $row")
-        return row.substring(0, pos) + row.substring(pos + 1)
+        return stack.joinToString("")
     }
 
     fun part2(resourcePath: String): BigInteger {
@@ -83,26 +75,9 @@ class Day2503 {
         var result = BigInteger.ZERO
 
         banks.forEach { rowFull ->
-            // Brute force
-            println("Testing: $rowFull")
-            var row = rowFull
-            var lowest = '0'
-            for(i in '0'..'9') {
-                val newRow = row.filter { it != i }
-                if (newRow.length < 12) {
-                    lowest = i
-                    break
-                }
-                row = newRow
-            }
-            println("Reduced1: $row")
-
-            while (row.length > 12) {
-                row = removeFirst(row, lowest)
-            }
-            println("Reduced2: $row")
-
-            result = result.add(findHighest(row))
+            val num = findLargestMonotonicStack(rowFull)
+            println("$rowFull -> $num")
+            result = result.add(BigInteger(num))
         }
 
         return result

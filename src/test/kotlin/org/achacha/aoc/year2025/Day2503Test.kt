@@ -32,15 +32,16 @@ class Day2503Test {
     @Test
     fun findHighest() {
         val d = Day2503()
-        assertEquals(BigInteger("987654321111"), d.findHighest("987654321111111"))
-        assertEquals(BigInteger("811111111119"), d.findHighest("811111111111119"))
-        assertEquals(BigInteger("434234234278"), d.findHighest("234234234234278"))
-        assertEquals(BigInteger("888911112111"), d.findHighest("818181911112111"))
+        assertEquals("987654321111", d.findLargestMonotonicStack("987654321111111"))
+        assertEquals("811111111119", d.findLargestMonotonicStack("811111111111119"))
+        assertEquals("434234234278", d.findLargestMonotonicStack("234234234234278"))
+        assertEquals("888911112111", d.findLargestMonotonicStack("818181911112111"))
+        assertEquals("654444724422", d.findLargestMonotonicStack("2261232211332221132222312231213241233432222222242422212425432333414123222221232322223134222233724422"))
     }
 
     @Test
     fun testPart2() {
         val d = Day2503()
-        assertEquals(BigInteger("144427020092230"), d.part2("/year2025/day2503.txt"))
+        assertEquals(BigInteger("169685670469164"), d.part2("/year2025/day2503.txt"))
     }
 }
