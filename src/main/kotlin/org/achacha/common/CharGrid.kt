@@ -1,0 +1,21 @@
+package org.achacha.common
+
+/**
+ * Char grid
+ *  X 0123
+ * Y
+ * 0  line
+ * 1  food
+ *
+ * Grid (Y, X)
+ */
+class CharGrid(private val grid: Array<CharArray>) {
+    /**
+     * Read at position, return default if out of bounds
+     *
+     */
+    fun getAt(x: Int, y: Int, default: Char): Char {
+        return if (x < 0 || y < 0 || y >= grid.size || x >= grid[y].size) default
+        else grid[y][x]
+    }
+}
