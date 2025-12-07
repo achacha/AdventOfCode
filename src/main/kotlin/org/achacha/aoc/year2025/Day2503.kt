@@ -3,6 +3,7 @@ package org.achacha.aoc.year2025
 import org.achacha.common.load2StringLines
 import java.math.BigDecimal
 import java.math.BigInteger
+import kotlin.compareTo
 import kotlin.math.max
 
 class Day2503 {
@@ -64,20 +65,43 @@ class Day2503 {
             for (x in 0 ..< row.length) {
                 val subrow = remove1(row, x)
                 val n = findHighest(subrow)
-                println(" Subtest:\t\t$subrow")
+//                println(" Subtest:\t\t$subrow")
                 if (n > currentHighest) currentHighest = n
             }
             return currentHighest
         }
     }
 
+    fun removeFirst(row: String, c: Char): String {
+        val pos = row.indexOf(c)
+        if (pos == -1) throw IllegalArgumentException("Cannot find $c in $row")
+        return row.substring(0, pos) + row.substring(pos + 1)
+    }
+
     fun part2(resourcePath: String): BigInteger {
         val banks = parseInput(resourcePath)
         var result = BigInteger.ZERO
 
-        banks.forEach { row ->
+        banks.forEach { rowFull ->
             // Brute force
-            println("Testing: $row")
+            println("Testing: $rowFull")
+            var row = rowFull
+            var lowest = '0'
+            for(i in '0'..'9') {
+                val newRow = row.filter { it != i }
+                if (newRow.length < 12) {
+                    lowest = i
+                    break
+                }
+                row = newRow
+            }
+            println("Reduced1: $row")
+
+            while (row.length > 12) {
+                row = removeFirst(row, lowest)
+            }
+            println("Reduced2: $row")
+
             result = result.add(findHighest(row))
         }
 

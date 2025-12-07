@@ -24,6 +24,12 @@ class Day2503Test {
     }
 
     @Test
+    fun testPart2test() {
+        val d = Day2503()
+        assertEquals(BigInteger("564484446343"), d.part2("/year2025/day2503_test.txt"))
+    }
+
+    @Test
     fun findHighest() {
         val d = Day2503()
         assertEquals(BigInteger("987654321111"), d.findHighest("987654321111111"))
@@ -35,6 +41,6 @@ class Day2503Test {
     @Test
     fun testPart2() {
         val d = Day2503()
-        assertEquals(BigInteger("1124464828902989889174191289103305533234439499148893055092794107040136423567001206979478336922823226"), d.part2("/year2025/day2503.txt"))
+        assertEquals(BigInteger("144427020092230"), d.part2("/year2025/day2503.txt"))
     }
 }
