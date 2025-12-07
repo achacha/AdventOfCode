@@ -1,7 +1,8 @@
 package org.achacha.common
 
 /**
- * Char grid
+ * Char grid  (rectangular not square)
+ *
  *  X 0123
  * Y
  * 0  line
@@ -18,4 +19,7 @@ class CharGrid(private val grid: Array<CharArray>) {
         return if (x < 0 || y < 0 || y >= grid.size || x >= grid[y].size) default
         else grid[y][x]
     }
+
+    fun maxX(y: Int): Int = grid[y].size
+    fun maxY(): Int = grid.size
 }

@@ -19,6 +19,5 @@ class CharGridTest {
         assertEquals('_', grid.getAt(0, 3, '_'))
         assertEquals('_', grid.getAt(-1, 1, '_'))
         assertEquals('_', grid.getAt(-1, -1, '_'))
-
     }
 }
