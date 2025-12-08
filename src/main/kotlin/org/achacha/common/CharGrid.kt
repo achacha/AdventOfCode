@@ -20,6 +20,10 @@ class CharGrid(private val grid: Array<CharArray>) {
         else grid[y][x]
     }
 
+    fun setAt(x: Int, y: Int, c: Char) {
+        grid[y][x] = c
+    }
+
     fun maxX(y: Int): Int = grid[y].size
     fun maxY(): Int = grid.size
 }

@@ -30,8 +30,8 @@ class Day2504 {
     fun part1(resourcePath: String): Int {
         var count = 0
         val grid = readData(resourcePath)
-        for (y in 0 ..< grid.maxY()) {
-            for (x in 0 ..< grid.maxX(y)) {
+        for (y in 0..<grid.maxY()) {
+            for (x in 0..<grid.maxX(y)) {
                 if (grid.getAt(x, y, '!') == '@') {
                     val cnt = countSpaceAroundPoint(grid, x, y, '@')
                     println("($x,$y) = $cnt")
@@ -40,5 +40,46 @@ class Day2504 {
             }
         }
         return count
+    }
+
+    fun findAllRemovable(grid: CharGrid): List<Pair<Int, Int>> {
+        val result = mutableListOf<Pair<Int, Int>>()
+        for (y in 0..<grid.maxY()) {
+            for (x in 0..<grid.maxX(y)) {
+                if (grid.getAt(x, y, '!') == '@') {
+                    val cnt = countSpaceAroundPoint(grid, x, y, '@')
+                    //println("Count: ($x,$y) = $cnt")
+                    if (cnt < 4) {
+                        result.add(Pair(x, y))
+                        //println("Remove: ($x,$y) = $cnt")
+                    }
+                }
+            }
+        }
+        return result
+    }
+
+    /**
+     * Remove in place
+     * @return CharGrid passed in for convenience
+     */
+    fun removePoints(grid: CharGrid, toRemove: List<Pair<Int, Int>>): CharGrid {
+        for (point in toRemove) {
+            grid.setAt(point.first, point.second, '.')
+        }
+        return grid
+    }
+
+    fun part2(resourcePath: String): Int {
+        val grid = readData(resourcePath)
+
+        var removedTotal = 0
+        do {
+            val removable = findAllRemovable(grid)
+            removePoints(grid, removable)
+            removedTotal += removable.size
+        } while (removable.isNotEmpty())
+
+        return removedTotal
     }
 }
