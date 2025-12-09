@@ -1,11 +1,11 @@
 package org.achacha.aoc.year2025
 
 import org.achacha.common.CharGrid
-import org.achacha.common.loadCharGrid
+import org.achacha.common.load2ArrayOfCharArray
 
 class Day2504 {
     fun readData(resourcePath: String): CharGrid {
-        return CharGrid(loadCharGrid(resourcePath))
+        return CharGrid(load2ArrayOfCharArray(resourcePath))
     }
 
     /**

@@ -1,14 +1,14 @@
 package org.achacha.aoc.year2025
 
 import org.achacha.common.CharGrid
-import org.achacha.common.loadCharGrid
-import org.junit.jupiter.api.Assertions.*
+import org.achacha.common.load2ArrayOfCharArray
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class Day2504Test {
     @Test
     fun testCountAround() {
-        val grid = CharGrid(loadCharGrid("/year2025/day2504_sample.txt"))
+        val grid = CharGrid(load2ArrayOfCharArray("/year2025/day2504_sample.txt"))
         val d = Day2504()
         assertEquals(2, d.countSpaceAroundPoint(grid, 2, 0, '.'))
         assertEquals(0, d.countSpaceAroundPoint(grid, 4, 4, '.'))
@@ -29,7 +29,7 @@ class Day2504Test {
 
     @Test
     fun findAllRemovable() {
-        val grid = CharGrid(loadCharGrid("/year2025/day2504_sample.txt"))
+        val grid = CharGrid(load2ArrayOfCharArray("/year2025/day2504_sample.txt"))
         val d = Day2504()
 
         // step 0

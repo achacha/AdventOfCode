@@ -1,6 +1,5 @@
 package org.achacha.common
 
-import org.achacha.aoc.year2025.Day2502
 import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -59,7 +58,7 @@ class UtilsKtTest {
 
     @Test
     fun testLoadCharGrid() {
-        val grid = loadCharGrid("/unittest/chargrid_1.txt")
+        val grid = load2ArrayOfCharArray("/unittest/chargrid_1.txt")
         assertEquals(4, grid.size)
         assertEquals(4, grid[0].size)
         assertEquals('A', grid[0][0])

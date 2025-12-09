@@ -1,10 +1,8 @@
 package org.achacha.aoc.year2025
 
 import org.achacha.common.load2StringLines
-import java.math.BigDecimal
 import java.math.BigInteger
-import java.util.Stack
-import kotlin.compareTo
+import java.util.*
 import kotlin.math.max
 
 class Day2503 {

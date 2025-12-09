@@ -34,11 +34,18 @@ fun load2column_Int(resourcePath: String, delim: String = " "): List<Array<Int>>
     }
 }
 
-fun loadCharGrid(resourcePath: String): Array<CharArray> {
+fun load2ArrayOfCharArray(resourcePath: String): Array<CharArray> {
     return object {}.javaClass.getResourceAsStream(resourcePath)?.bufferedReader(Charsets.UTF_8).use {
         val lines = it?.readLines() ?: emptyList()
         lines.map(String::toCharArray).toTypedArray()
     }
+}
+
+/**
+ * Loads text grid into CharGrid
+ */
+fun load2CharGrid(resourcePath: String): CharGrid {
+    return CharGrid(load2ArrayOfCharArray(resourcePath))
 }
 
 /**
