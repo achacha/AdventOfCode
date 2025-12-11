@@ -1,5 +1,7 @@
 package org.achacha.common
 
+import java.io.FileNotFoundException
+
 /**
  * Given resource path
  * Read lines separated by delimiter, clean white space
@@ -10,7 +12,7 @@ fun load2column(resourcePath: String, delim: String = " "): List<Array<String>> 
         val lines = it?.readLines()
         lines?.map { line ->
             line.trimIndent().split(delim).map { it.trimIndent() }.filter(String::isNotBlank).toTypedArray()
-        }?.toList() ?: emptyList()
+        }?.toList() ?: throw FileNotFoundException("`$resourcePath` not found")
     }
 }
 
@@ -30,13 +32,13 @@ fun load2column_Int(resourcePath: String, delim: String = " "): List<Array<Int>>
                 .filter(String::isNotBlank)
                 .map(Integer::valueOf)
                 .toTypedArray()
-        }?.toList() ?: emptyList()
+        }?.toList() ?: throw FileNotFoundException("`$resourcePath` not found")
     }
 }
 
 fun load2ArrayOfCharArray(resourcePath: String): Array<CharArray> {
     return object {}.javaClass.getResourceAsStream(resourcePath)?.bufferedReader(Charsets.UTF_8).use {
-        val lines = it?.readLines() ?: emptyList()
+        val lines = it?.readLines() ?: throw FileNotFoundException("`$resourcePath` not found")
         lines.map(String::toCharArray).toTypedArray()
     }
 }
@@ -53,14 +55,14 @@ fun load2CharGrid(resourcePath: String): CharGrid {
  * @return Contents as String
  */
 fun load2String(resourcePath: String): String =
-    object {}.javaClass.getResourceAsStream(resourcePath)?.bufferedReader(Charsets.UTF_8).use { it?.readText() } ?: ""
+    object {}.javaClass.getResourceAsStream(resourcePath)?.bufferedReader(Charsets.UTF_8).use { it?.readText() } ?: throw FileNotFoundException("`$resourcePath` not found")
 
 /**
  * Given resource path read lines into List<String>
  * @return Contents as String lines in a list
  */
 fun load2StringLines(resourcePath: String): List<String> =
-    object {}.javaClass.getResourceAsStream(resourcePath)?.bufferedReader(Charsets.UTF_8).use { it?.readLines() } ?: emptyList()
+    object {}.javaClass.getResourceAsStream(resourcePath)?.bufferedReader(Charsets.UTF_8).use { it?.readLines() } ?: throw FileNotFoundException("`$resourcePath` not found")
 
 /**
  * Show array as string

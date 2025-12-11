@@ -3,58 +3,41 @@ package org.achacha.common
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
-class CharGridTest {
-    @Test
-    fun testAccess() {
-        val ary = arrayOf(
-            "01234".toCharArray(),
-            "abcde".toCharArray(),
-            "ABCDEF".toCharArray()
-        )
-        val grid = CharGrid(ary)
-
-        assertEquals('a', grid.getAt(0, 1, '_'))
-        assertEquals('0', grid.getAt(GridPoint(0, 0), '_'))
-        assertEquals('E', grid.getAt(4, 2, '_'))
-        assertEquals('_', grid.getAt(0, 3, '_'))
-        assertEquals('_', grid.getAt(-1, 1, '_'))
-        assertEquals('_', grid.getAt(GridPoint(-1, -1), '_'))
-    }
-
+class IntGridTest {
     @Test
     fun findCharInGrid() {
-        val grid = CharGrid(4, 4)
-        grid.setAt(2, 2, '@')
-        grid.setAt(0, 3, '$')
-        grid.setAt(3, 1, '#')
+        val grid = IntGrid(4, 4)
+        grid.setAt(2, 2, 13)
+        grid.setAt(0, 3, 9)
+        grid.setAt(3, 1, 102)
 
-        var p = grid.findFirst('$')
+        var p = grid.findFirst(9)
         assertNotNull(p)
         assertEquals(0, p?.x)
         assertEquals(3, p?.y)
 
-        p = grid.findFirst('#')
+        p = grid.findFirst(102)
         assertNotNull(p)
         assertEquals(3, p?.x)
         assertEquals(1, p?.y)
 
-        p = grid.findFirst('a')
+        p = grid.findFirst(-2)
         assertNull(p)
     }
 
     @Test
     fun findAll() {
-        val grid = CharGrid(4, 4)
-        grid.setAt(2, 2, '@')
-        grid.setAt(0, 3, '@')
-        grid.setAt(3, 1, '@')
+        val grid = IntGrid(4, 4)
+        grid.setAt(2, 2, 6)
+        grid.setAt(0, 3, 6)
+        grid.setAt(3, 1, 6)
 
-        assertEquals(3, grid.findAll('@').size)
+        assertEquals(3, grid.findAll(6).size)
     }
 
     @Test
     fun testInRange() {
-        val grid = CharGrid(4, 4)
+        val grid = IntGrid(4, 4)
 
         assertTrue(grid.isInGrid(GridPoint(1, 1)))
         assertTrue(grid.isInGrid(GridPoint(0, 0)))
@@ -73,4 +56,13 @@ class CharGridTest {
         assertTrue(grid.isNotInGrid(GridPoint(0, -1)))
     }
 
+    @Test
+    fun testOperate() {
+        val grid = IntGrid(2, 2)
+        val pt = GridPoint(1, 1)
+
+        assertEquals(0, grid.getAt(pt, -1))
+        grid.operate(pt) { it + 1 }
+        assertEquals(1, grid.getAt(pt, -1))
+    }
 }
