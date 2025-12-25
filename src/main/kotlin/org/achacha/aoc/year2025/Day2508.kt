@@ -2,10 +2,11 @@ package org.achacha.aoc.year2025
 
 import org.achacha.common.Point3D
 import org.achacha.common.load2StringLines
-import java.util.*
 import kotlin.math.roundToInt
 
-class Day2508 {
+class Day2508(
+    val debug: Boolean = false
+) {
     class Edge : Comparable<Edge> {
         /**
          * Index into array pf points
@@ -47,7 +48,7 @@ class Day2508 {
         }
 
         fun toString(points: Array<Point3D>): String {
-            return "${points[one]} -> ${points[two]}"
+            return "${points[one]} -> ${points[two]} = $distance"
         }
     }
 
@@ -59,25 +60,35 @@ class Day2508 {
         // array of Point3D
         val points = load2StringLines(resourcePath).map(Point3D::toPoint3D).toTypedArray()
         // map of distance to edge
-        val edges = TreeSet<Edge>()
+        val edges = mutableListOf<Edge>()
 
         // Calculate distances
         var i = 0
         while (i < points.size - 1) {
             var j = i + 1
             while (j < points.size) {
-                //println("Check: $i - $j")
                 val distance = points[i].distanceTo(points[j])
                 val edge = Edge(i, j, distance)
+                if (debug) println("P: ${edge.toString(points)}")
                 edges.add(edge)
                 ++j
             }
             ++i
         }
 
+        edges.sort()
+        if (debug) {
+            println("\n---after parse edges---\n")
+            for (e in edges) {
+                println(e.toString(points))
+            }
+        }
+
         // iterate and connect
+        println("\n---CHECKING---\n")
         val pointSets = mutableSetOf<JunctionSet>()
         for (edge in edges.take(count)) {
+            if (debug) println("===Check: ${edge.toString(points)}")
             var psOne: JunctionSet? = null
             var psTwo: JunctionSet? = null
             for (ps in pointSets) {
@@ -87,27 +98,34 @@ class Day2508 {
             }
             if (psOne == null && psTwo == null) {
                 pointSets.add(JunctionSet(mutableSetOf(edge.one, edge.two)))
-//                println("New (${edge.one}, ${edge.two}) ${edge.toString(points)}")
+                if (debug) println("New (${edge.one}, ${edge.two}) ${edge.toString(points)}")
             } else if (psOne != null && psOne == psTwo) {
                 // Same set
-//                println("Adding(both same) (${edge.one}, ${edge.two}) ${edge.toString(points)} to $psOne")
+                if (debug) println("Adding(both same) (${edge.one}, ${edge.two}) ${edge.toString(points)} to $psOne")
                 psOne.indexes.add(edge.one)
                 psOne.indexes.add(edge.two)
             } else if (psOne != null && psTwo != null) {
                 // Different set, join
                 psOne.indexes.addAll(psTwo.indexes)
                 psTwo.indexes.clear()
-//                println("Merged (${edge.one}, ${edge.two}) ${edge.toString(points)} to $psOne")
+                if (debug) println("Merged (${edge.one}, ${edge.two}) ${edge.toString(points)} to $psOne")
             } else if (psOne != null) {
-//                println("Adding(one) (${edge.one}, ${edge.two}) ${edge.toString(points)} to $psOne")
+                if (debug) println("Adding(one) (${edge.one}, ${edge.two}) ${edge.toString(points)} to $psOne")
                 psOne.indexes.add(edge.one)
                 psOne.indexes.add(edge.two)
             } else if (psTwo != null) {
-//                println("Adding(two) (${edge.one}, ${edge.two}) ${edge.toString(points)} to $psTwo")
+                if (debug) println("Adding(two) (${edge.one}, ${edge.two}) ${edge.toString(points)} to $psTwo")
                 psTwo.indexes.add(edge.one)
                 psTwo.indexes.add(edge.two)
             } else {
                 println("Missed: $edge")
+            }
+        }
+
+        if (debug) {
+            println("\n---final form---\n")
+            for (s in pointSets) {
+                println(s)
             }
         }
 
