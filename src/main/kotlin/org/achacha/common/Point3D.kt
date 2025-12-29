@@ -3,9 +3,9 @@ package org.achacha.common
 import kotlin.math.sqrt
 
 data class Point3D(
-    private val x: Int = 0,
-    private val y: Int = 0,
-    private val z: Int = 0
+    val x: Int = 0,
+    val y: Int = 0,
+    val z: Int = 0
 ) {
     companion object {
         fun toPoint3D(line: String): Point3D {
